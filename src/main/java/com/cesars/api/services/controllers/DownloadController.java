@@ -4,6 +4,7 @@ import com.cesars.api.services.services.ConsultaService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -21,15 +22,14 @@ import java.util.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class DownloadController {
     @Autowired
     ConsultaService consultaService;
 
-    @RequestMapping(value ="/zip", method = RequestMethod.GET)
-    public void downLoadSearchFiles(HttpServletResponse response, @RequestParam int id) throws JsonProcessingException
+    @RequestMapping(value ="/zip/{id}", method = RequestMethod.GET)
+    public void downLoadSearchFiles(HttpServletResponse response, @PathVariable  int id) throws JsonProcessingException
     {
         CharacterModel o = consultaService.getDataById(id);
         String mapeado = new ObjectMapper().writeValueAsString(o);
